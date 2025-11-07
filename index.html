@@ -3,20 +3,17 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The SMC Blog</title>
     <style>
         body {
-            background-color: #111;
-            color: #ddd;
+            background-color: #000;
+            color: #ccc;
             font-family: monospace;
-            max-width: 800px;
-            margin: 3rem auto;
-            line-height: 1.6;
+            margin: 40px;
         }
 
         a {
-            color: #7fffd4;
+            color: #00ffff;
             text-decoration: none;
         }
 
@@ -29,20 +26,29 @@
             color: #fff;
         }
 
-        nav {
-            margin-bottom: 2rem;
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 3px;
         }
 
         nav a {
             margin-right: 1rem;
         }
 
-        footer {
+        hr {
+            border: none;
             border-top: 1px solid #333;
-            margin-top: 3rem;
-            padding-top: 1rem;
+            margin: 2rem 0;
+        }
+
+        footer {
+            color: #666;
             font-size: 0.9rem;
-            color: #888;
+            margin-top: 2rem;
         }
     </style>
 </head>
@@ -56,28 +62,39 @@
         <a href="#">Guides</a>
         <a href="#">Search</a>
     </nav>
+    <hr />
 
-    <section id="about">
-        <h2>About</h2>
-        <p>
-            This is a research-led blog of the Sound and Music Computation master’s
-            programme at Universitat Pompeu Fabra (UPF), Barcelona. Run by Lydia
-            Krifka-Dobes, it documents experiments, projects, and resources around
-            sound, computation, and music technology.
-        </p>
-    </section>
+    <h2>About</h2>
+    <p>
+        This is a research-led blog of the Sound and Music Computation master’s
+        programme at
+        <a href="https://www.upf.edu/web/smc">Universitat Pompeu Fabra (UPF), Barcelona</a>. Run by <strong>Lydia
+            Krifka-Dobes</strong>, it documents experiments,
+        projects, and resources around sound, computation, and music technology.
+    </p>
 
-    <section id="topics">
-        <h2>Topics</h2>
-        <ul>
-            <li>Digital Signal Processing</li>
-            <li><a href="ml.html">Machine Learning for Sound and Music</a></li>
-            <li>Sonic Information Retrieval</li>
-            <li>Symbolic Music Analysis</li>
-            <li>Generative Algorithms</li>
-            <li>Sonic Cognition & Perception</li>
-        </ul>
-    </section>
+    <h2>Topics</h2>
+    <ul>
+        <li>Digital Signal Processing</li>
+        <li><a href="ml.html">Machine Learning</a></li>
+        <li>Sonic Information Retrieval</li>
+        <li>Symbolic Music Analysis</li>
+        <li>Generative Algorithms</li>
+        <li>Sonic Cognition & Perception</li>
+    </ul>
+
+    <h2>Programme Structure</h2>
+    <ul>
+        <li>Overview</li>
+        <li>Academic Program</li>
+        <li>Scholarships</li>
+        <li>Internships</li>
+        <li>Teaching Faculty</li>
+        <li>Thesis Projects</li>
+        <li>Quality</li>
+        <li>FAQ</li>
+        <li>Alumni</li>
+    </ul>
 
     <footer>
         GNU/Linux — Sound and Music Computation (UPF Barcelona)<br />
