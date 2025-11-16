@@ -1,113 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
-    <title>The SMC Blog — Sound and Music Computation, UPF</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMC Coursework – Lydia Krifka-Dobes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css" />
     <style>
         body {
-            background-color: #111;
-            color: #ddd;
-            font-family: monospace;
-            margin: 2em;
+            font-family: "Georgia", "Times New Roman", serif;
+            background-color: #181a20;
+            color: #e2e4ea;
             line-height: 1.6;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
-
+        h1, h2, h3 {
+            font-family: "Fira Code", "JetBrains Mono", monospace;
+            font-weight: 600;
+            color: #e7e9f3;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 0.2em;
+            text-align: center;
+            color: #b7c4ff;
+        }
+        h2 {
+            color: #b7c4ff;
+            font-size: 1.15em;
+        }
+        .subtitle {
+            font-style: italic;
+            color: #a3a7c7;
+            margin-bottom: 2em;
+            text-align: center;
+            font-family: "Georgia", serif;
+        }
+        .problem-statement {
+            background: rgba(122, 122, 217, 0.08);
+            border-left: 4px solid #7a7ad9;
+            padding: 1.2em;
+            margin-bottom: 2em;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        .twopane {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 2em;
+        }
+        .pane {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+        }
+        .section-box {
+            background: #23253a;
+            border: 1px solid #2e3147;
+            border-radius: 8px;
+            padding: 1.1em 1em;
+            margin-bottom: 0;
+            box-shadow: 0 2px 8px rgba(60, 70, 120, 0.07);
+        }
+        .section-box h3 {
+            margin-top: 0;
+            margin-bottom: 0.6em;
+            font-size: 1em;
+        }
+        .emphasis {
+            color: #7a7ad9;
+            font-weight: bold;
+        }
+        ul {
+            list-style-type: square;
+            margin-left: 1.2em;
+            margin-top: 0.5em;
+        }
+        ul li {
+            color: #e2e4ea;
+            margin-bottom: 0.4em;
+        }
+        footer {
+            border-top: 1px solid #2e3147;
+            margin-top: 2.5em;
+            padding-top: 1em;
+            font-size: 0.9em;
+            color: #a3a7c7;
+            text-align: center;
+            font-family: "Georgia", serif;
+        }
         a {
-            color: #4ee;
+            color: #8b8bdb;
             text-decoration: none;
         }
-
         a:hover {
             text-decoration: underline;
         }
-
-        header {
-            margin-bottom: 1em;
-        }
-
-        nav a {
-            margin-right: 1.5em;
-        }
-
-        h1,
-        h2 {
-            color: #eee;
-        }
-
-        section {
-            margin-top: 2em;
-        }
-
-        footer {
-            margin-top: 3em;
-            color: #777;
-            font-size: 13px;
-        }
-
-        details summary {
-            cursor: pointer;
-            color: #4ee;
+        @media (max-width: 900px) {
+            .twopane {
+                flex-direction: column;
+                gap: 0;
+            }
+            .pane {
+                gap: 1em;
+            }
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <h1>The SMC Blog</h1>
-        <nav>
-            <a href="#">Topics</a>
-            <a href="#">Projects</a>
-            <a href="#">About</a>
-            <a href="#">Guides</a>
-            <a href="#">Search</a>
-        </nav>
-    </header>
-    <hr />
-
-    <section id="about">
-        <h2>About</h2>
-        <p>
-            This is a research-led blog of the
-            <strong>Sound and Music Computation</strong> master’s programme at
-            <a href="https://www.upf.edu/">Universitat Pompeu Fabra (UPF)</a>,
-            Barcelona. Run by <strong>Lydia Krifka-Dobes</strong>, it documents
-            experiments, projects, and resources around sound, computation, and
-            music technology.
-        </p>
-    </section>
-
-    <section id="topics">
-        <h2>Topics</h2>
-        <pre>
-            <a href="dsp.html">Digital Signal Processing</a>
-            <a href="ml.html">Machine Learning</a>
-            <a href="#">Sonic Information Retrieval</a>
-            <a href="#">Symbolic Music Analysis</a>
-            <a href="#">Generative Algorithms</a>
-            <a href="#">Sonic Cognition &amp; Perception</a>
-        </pre>
-    </section>
-
-    <section id="program">
-        <h2>Programme Structure</h2>
-        <pre>
-            <a href="#">Overview</a>
-            <a href="#">Academic Program</a>
-            <a href="#">Scholarships</a>
-            <a href="#">Internships</a>
-            <a href="#">Teaching Faculty</a>
-            <a href="#">Thesis Projects</a>
-            <a href="#">Quality</a>
-            <a href="#">FAQ</a>
-            <a href="#">Alumni</a>
-        </pre>
-    </section>
-
+    <h1>SMC Master's Coursework</h1>
+    <div class="subtitle">
+        Sound and Music Computing – UPF Barcelona
+    </div>
+    <div class="problem-statement">
+        <strong>About This Blog:</strong> Documentation of coursework across seven SMC program courses at Universitat Pompeu Fabra's Music Technology Group. Covering digital signal processing, machine learning for audio, music perception research, and information retrieval systems using Python and computational methods.
+    </div>
+    <div class="twopane">
+        <div class="pane">
+            <div class="section-box">
+                <h2>Program Overview</h2>
+                <p>
+                    Master's program in <span class="emphasis">Sound and Music Computing</span> focusing on the intersection of audio signal processing, machine learning, and music information retrieval.
+                </p>
+                <ul>
+                    <li><strong>Institution:</strong> Universitat Pompeu Fabra, Music Technology Group</li>
+                    <li><strong>Supervisor:</strong> Prof. Xavier Serra</li>
+                    <li><strong>Background:</strong> Computer Music, Institute of Sonology, Royal Conservatory Den Haag</li>
+                    <li><strong>Focus:</strong> DSP, ML for audio, MIR, psychoacoustic research</li>
+                </ul>
+            </div>
+            <div class="section-box">
+                <h3>Current Coursework</h3>
+                <ul style="margin-bottom: 0">
+                    <li><span class="emphasis">Audio Signal Processing</span> – STFT analysis, sinusoidal modeling, SMS tools</li>
+                    <li><span class="emphasis">Machine Learning for Audio</span> – CNNs, contrastive learning, genre classification</li>
+                    <li><span class="emphasis">Music Perception</span> – Psychoacoustics, experimental design, statistical analysis</li>
+                    <li><span class="emphasis">Music Information Retrieval</span> – Feature extraction, similarity search, recommendation</li>
+                    <li><span class="emphasis">Research Methodology</span> – Literature reviews, meta-analysis, academic writing</li>
+                </ul>
+            </div>
+        </div>
+        <div class="pane">
+            <div class="section-box">
+                <h3>Technical Stack</h3>
+                <ul>
+                    <li><strong>Languages:</strong> Python, Bash, LaTeX</li>
+                    <li><strong>Audio Libraries:</strong> librosa, essentia, sms-tools, soundfile</li>
+                    <li><strong>ML Frameworks:</strong> PyTorch, scikit-learn, pandas</li>
+                    <li><strong>Environment:</strong> Arch Linux, Neovim, uv package manager</li>
+                    <li><strong>Version Control:</strong> Git, GitHub (Arch-style naming conventions)</li>
+                </ul>
+            </div>
+            <div class="section-box">
+                <h3>Documentation</h3>
+                <p>Comprehensive technical documentation covering all seven courses with code examples, assignments, and research notes.</p>
+                <ul style="margin-bottom: 0.5em;">
+                    <li><a href="dsp.html">Digital Signal Processing</a> – Course notes & experiments</li>
+                    <li><a href="ml.html">Machine Learning for Audio</a> – Models & assignments</li>
+                    <!-- Add more course pages as you create them -->
+                </ul>
+            </div>
+            <div class="section-box">
+                <h3>Contact</h3>
+                <ul style="margin-bottom: 0">
+                    <li><strong>Email:</strong> oiooiioo@tuta.io</li>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/lydiakrifka">@lydiakrifka</a></li>
+                    <li><strong>Academic:</strong> UPF Barcelona, Music Technology Group</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <footer>
-        GNU/Linux — Sound and Music Computation (UPF Barcelona)<br />
-        Maintained by Lydia Krifka-Dobes — Free knowledge, free culture.
+        Master in Sound and Music Computing · UPF Barcelona · 2024-2025<br />
+        <strong>Student:</strong> Lydia Krifka-Dobes<br />
+        <a href="dsp.html"><strong>DSP Coursework</strong></a> |
+        <a href="ml.html"><strong>ML Coursework</strong></a><br />
+        <span style="font-size: 0.85em; color: #7c7f93">
+            Copyright © 2025 Lydia Krifka-Dobes · Licensed under GPL-3.0
+        </span>
     </footer>
 </body>
-
 </html>
