@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <meta name="author" content="Lydia Krifka-Dobes" />
+    <title>SMC Lab · Coursework Notes</title>
+
+    <style>
+        /* --- Minimal pandoc helpers --- */
+        code {
+            white-space: pre-wrap;
+        }
+
+        span.smallcaps {
+            font-variant: small-caps;
+        }
+
+        div.columns {
+            display: flex;
+            gap: min(4vw, 1.5em);
+        }
+
+        div.column {
+            flex: auto;
+            overflow-x: auto;
+        }
+
+        ul.task-list {
+            list-style: none;
+        }
+
+        /* --- Dark blog theme (short version) --- */
+        :root {
+            --bg-primary: #1a1c24;
+            --bg-secondary: #23253a;
+            --bg-code: #2a2d3e;
+            --border-color: #2e3147;
+            --text-primary: #e2e4ea;
+            --text-secondary: #a3a7c7;
+            --accent-primary: #7a7ad9;
+            --accent-secondary: #b7c4ff;
+            --link-color: #8b8bdb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Georgia", "Cambria", "Times New Roman", serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Fira Code", "JetBrains Mono", "Consolas", monospace;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin-top: 0;
+            padding-bottom: 0.3em;
+            border-bottom: 3px solid var(--border-color);
+            color: var(--accent-primary);
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 1.6em;
+            padding-bottom: 0.15em;
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 2.2em;
+        }
+
+        p {
+            margin-bottom: 1.1em;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 0.4em;
+            margin-bottom: 1.5em;
+        }
+
+        strong {
+            color: var(--accent-secondary);
+        }
+
+        em {
+            color: var(--text-secondary);
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--link-color);
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 2em 0;
+        }
+
+        nav#TOC {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.2em;
+            margin: 2em 0;
+        }
+
+        nav#TOC ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        nav#TOC li {
+            margin-bottom: 0.4em;
+        }
+
+        pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1em;
+            overflow-x: auto;
+            margin: 1.4em 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        code {
+            font-family: "Fira Code", "JetBrains Mono", "Consolas", monospace;
+            font-size: 0.9em;
+            background: var(--bg-code);
+            padding: 0.15em 0.35em;
+            border-radius: 3px;
+            color: #e8c4b8;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding: 0.9em 1.1em 0.9em 1.4em;
+            margin: 1.5em 0;
+            color: var(--text-secondary);
+            font-style: italic;
+            background: var(--bg-secondary);
+            border-radius: 0 4px 4px 0;
+        }
+
+        ul,
+        ol {
+            margin-left: 1.6em;
+            margin-bottom: 1.1em;
+        }
+
+        li {
+            margin-bottom: 0.4em;
+        }
+
+        .emphasis-box {
+            background: rgba(122, 122, 217, 0.1);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1.1em;
+            margin: 1.5em 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* Minimal syntax colouring */
+        .sourceCode .kw {
+            color: #e78c8c;
+            font-weight: bold;
+        }
+
+        .sourceCode .fu {
+            color: #8b8bdb;
+        }
+
+        .sourceCode .st {
+            color: #b8bb87;
+        }
+
+        .sourceCode .co {
+            color: #7c7f93;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 15px;
+            }
+
+            h1 {
+                font-size: 1.9em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="title-block-header">
+        <h1 class="title">SMC Lab · Coursework Notes</h1>
+        <p class="subtitle">
+            Universitat Pompeu Fabra · Sound and Music Computing · personal logbook
+        </p>
+        <p class="author"><strong>Author:</strong> Lydia Krifka-Dobes</p>
+        <p class="date">2024–2025</p>
+    </header>
+
+    <p>
+        <strong>Copyright © 2025 Lydia Krifka-Dobes</strong><br />
+        Licensed under GPL-3.0 · Source:
+        <a href="https://github.com/lydiakrifka/smclab.github.io">smclab.github.io</a>
+    </p>
+
+    <p>
+        <strong>Note:</strong> This page is generated from markdown via Pandoc and
+        serves as a template for my SMC coursework blog: DSP experiments, MIR
+        assignments, machine-learning sketches, and small research notes.
+    </p>
+
+    <hr />
+
+    <h2 id="abstract">Abstract</h2>
+    <p>
+        This notebook collects <em>work-in-progress</em> material from the Sound
+        and Music Computing master at UPF Barcelona and ongoing projects at the
+        Institute of Sonology. The focus is on reproducible code examples, short
+        explanations, and links to audio or figures, rather than polished papers.
+    </p>
+
+    <div class="emphasis-box">
+        <strong>How to use this template:</strong><br />
+        Replace the sections below with course-specific content (e.g. “DSP Week 3
+        – STFT”, “MIR – Onset Detection”), keeping the structure and code style
+        consistent across entries.
+    </div>
+
+    <h2 id="table-of-contents">Table of Contents</h2>
+    <nav id="TOC">
+        <ul>
+            <li><a href="#course-context">1. Course Context</a></li>
+            <li><a href="#notebook-structure">2. Notebook Structure</a></li>
+            <li><a href="#example-code-snippet">3. Example Code Snippet</a></li>
+        </ul>
+    </nav>
+
+    <h2 id="course-context">1. Course Context</h2>
+    <p>
+        These notes cover selected classes and projects from the SMC curriculum
+        and adjacent research:
+    </p>
+    <ul>
+        <li>
+            <strong>DSP:</strong> spectral analysis, sinusoidal modelling, filters.
+        </li>
+        <li>
+            <strong>MIR / ML for Audio:</strong> feature extraction, embeddings,
+            simple classifiers and baselines.
+        </li>
+        <li>
+            <strong>Perception:</strong> listening tests, psychoacoustic measures,
+            and small statistics experiments.
+        </li>
+        <li>
+            <strong>Sonics of Language:</strong> clustering multilingual speech,
+            segmentation strategies, and spatial sound sketches.
+        </li>
+    </ul>
+
+    <h2 id="notebook-structure">2. Notebook Structure</h2>
+    <p>Each blog entry or course page generally follows this pattern:</p>
+    <ol>
+        <li>
+            <strong>Goal:</strong> one paragraph saying what I’m trying to test or
+            build.
+        </li>
+        <li><strong>Method:</strong> short description + the main code block.</li>
+        <li>
+            <strong>Observations:</strong> what worked, what broke, what to try
+            next.
+        </li>
+        <li><strong>Links:</strong> audio, plots, or repository references.</li>
+    </ol>
+
+    <blockquote>
+        “If a script can’t be re-run on a different day and still make sense, it
+        doesn’t belong here yet.”
+    </blockquote>
+
+    <h2 id="example-code-snippet">3. Example Code Snippet</h2>
+    <p>
+        Minimal baseline for feature extraction and normalization (used in several
+        experiments):
+    </p>
+
+    <div class="sourceCode" id="code-example">
+        <pre><code class="sourceCode python"><span class="co"># features.py – tiny baseline pipeline</span>
+                <span class="kw">import</span> librosa, numpy <span class="kw">as</span> np
+                <span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+
+                <span class="kw">def</span> extract_log_mel(path, n_mels=64):
+                y, sr = librosa.load(path, sr=None)
+                mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=n_mels)
+                log_mel = librosa.power_to_db(mel, ref=np.max)
+                scaler = StandardScaler()
+                X = scaler.fit_transform(log_mel.T) <span class="co"># frames × features</span>
+                <span class="kw">return</span> X, sr
+
+                X, sr = extract_log_mel(<span class="st">"audio/example.wav"</span>)
+                <span class="fu">print</span>(X.shape, <span class="st">"sample rate:"</span>, sr)</code></pre>
+    </div>
+
+    <p>
+        On other pages, this template just repeats with different sections (e.g.
+        “Experiment A”, “Follow-up B”) and more detailed results, but keeps the
+        same typography + code styling.
+    </p>
+
+    <hr />
+
+    <p>
+        <strong>Contact:</strong>
+        <a href="mailto:oiooiioo@tuta.io">oiooiioo@tuta.io</a> · GitHub:
+        <a href="https://github.com/lydiakrifka">@lydiakrifka</a>
+    </p>
+</body>
+
+</html>
