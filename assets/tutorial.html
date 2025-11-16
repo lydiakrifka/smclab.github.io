@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <title>SMC Lab · Tutorial Template</title>
+
+    <!-- Pandoc helper styles / code highlighting -->
+    <style>
+        code {
+            white-space: pre-wrap;
+        }
+
+        span.smallcaps {
+            font-variant: small-caps;
+        }
+
+        div.columns {
+            display: flex;
+            gap: min(4vw, 1.5em);
+        }
+
+        div.column {
+            flex: auto;
+            overflow-x: auto;
+        }
+
+        div.hanging-indent {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+        }
+
+        ul.task-list[class] {
+            list-style: none;
+        }
+
+        ul.task-list li input[type="checkbox"] {
+            font-size: inherit;
+            width: 0.8em;
+            margin: 0 0.8em 0.2em -1.6em;
+            vertical-align: middle;
+        }
+
+        .display.math {
+            display: block;
+            text-align: center;
+            margin: 0.5rem auto;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        pre>code.sourceCode {
+            white-space: pre;
+            position: relative;
+        }
+
+        pre>code.sourceCode>span {
+            display: inline-block;
+            line-height: 1.25;
+        }
+
+        pre>code.sourceCode>span:empty {
+            height: 1.2em;
+        }
+
+        .sourceCode {
+            overflow: visible;
+        }
+
+        code.sourceCode>span {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        div.sourceCode {
+            margin: 1em 0;
+        }
+
+        pre.sourceCode {
+            margin: 0;
+        }
+
+        @media screen {
+            div.sourceCode {
+                overflow: auto;
+            }
+        }
+
+        @media print {
+            pre>code.sourceCode {
+                white-space: pre-wrap;
+            }
+
+            pre>code.sourceCode>span {
+                text-indent: -5em;
+                padding-left: 5em;
+            }
+        }
+
+        pre.numberSource code {
+            counter-reset: source-line 0;
+        }
+
+        pre.numberSource code>span {
+            position: relative;
+            left: -4em;
+            counter-increment: source-line;
+        }
+
+        pre.numberSource code>span>a:first-child::before {
+            content: counter(source-line);
+            position: relative;
+            left: -1em;
+            text-align: right;
+            vertical-align: baseline;
+            border: none;
+            display: inline-block;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 0 4px;
+            width: 4em;
+            color: #aaaaaa;
+        }
+
+        pre.numberSource {
+            margin-left: 3em;
+            border-left: 1px solid #aaaaaa;
+            padding-left: 4px;
+        }
+
+        code span.al {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        code span.an {
+            color: #60a0b0;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        code span.at {
+            color: #7d9029;
+        }
+
+        code span.bn {
+            color: #40a070;
+        }
+
+        code span.bu {
+            color: #008000;
+        }
+
+        code span.cf {
+            color: #007020;
+            font-weight: bold;
+        }
+
+        code span.ch {
+            color: #4070a0;
+        }
+
+        code span.cn {
+            color: #880000;
+        }
+
+        code span.co {
+            color: #60a0b0;
+            font-style: italic;
+        }
+
+        code span.cv {
+            color: #60a0b0;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        code span.do {
+            color: #ba2121;
+            font-style: italic;
+        }
+
+        code span.dt {
+            color: #902000;
+        }
+
+        code span.dv {
+            color: #40a070;
+        }
+
+        code span.er {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        code span.ex {}
+
+        code span.fl {
+            color: #40a070;
+        }
+
+        code span.fu {
+            color: #06287e;
+        }
+
+        code span.im {
+            color: #008000;
+            font-weight: bold;
+        }
+
+        code span.in {
+            color: #60a0b0;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        code span.kw {
+            color: #007020;
+            font-weight: bold;
+        }
+
+        code span.op {
+            color: #666666;
+        }
+
+        code span.ot {
+            color: #007020;
+        }
+
+        code span.pp {
+            color: #bc7a00;
+        }
+
+        code span.sc {
+            color: #4070a0;
+        }
+
+        code span.ss {
+            color: #bb6688;
+        }
+
+        code span.st {
+            color: #4070a0;
+        }
+
+        code span.va {
+            color: #19177c;
+        }
+
+        code span.vs {
+            color: #4070a0;
+        }
+
+        code span.wa {
+            color: #60a0b0;
+            font-weight: bold;
+            font-style: italic;
+        }
+    </style>
+
+    <!-- Dark theme + layout (like your friend's) -->
+    <style type="text/css">
+        :root {
+            --bg-primary: #1a1c24;
+            --bg-secondary: #23253a;
+            --bg-code: #2a2d3e;
+            --border-color: #2e3147;
+            --text-primary: #e2e4ea;
+            --text-secondary: #a3a7c7;
+            --accent-primary: #7a7ad9;
+            --accent-secondary: #b7c4ff;
+            --link-color: #8b8bdb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Georgia", "Cambria", "Times New Roman", serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* TOC */
+        nav#TOC {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5em;
+            margin: 2em 0;
+        }
+
+        nav#TOC>ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        nav#TOC ul ul {
+            list-style: none;
+            margin-left: 1.5em;
+            margin-top: 0.5em;
+        }
+
+        nav#TOC li {
+            margin-bottom: 0.6em;
+        }
+
+        nav#TOC>ul>li {
+            font-weight: 600;
+            margin-bottom: 0.8em;
+        }
+
+        nav#TOC>ul>li>ul>li {
+            font-weight: 400;
+            margin-bottom: 0.4em;
+        }
+
+        nav#TOC a {
+            color: var(--link-color);
+        }
+
+        nav#TOC a:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Headings */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Fira Code", "JetBrains Mono", "Consolas", monospace;
+            font-weight: 600;
+            color: var(--accent-secondary);
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-top: 0;
+            padding-bottom: 0.3em;
+            border-bottom: 3px solid var(--border-color);
+            color: var(--accent-primary);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            padding-bottom: 0.2em;
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 2.5em;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+        }
+
+        /* Text */
+        p {
+            margin-bottom: 1.2em;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-secondary);
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Links */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--link-color);
+        }
+
+        /* Code blocks */
+        code {
+            font-family: "Fira Code", "JetBrains Mono", "Consolas", monospace;
+            font-size: 0.9em;
+            background: var(--bg-code);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            color: #e8c4b8;
+        }
+
+        pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.2em;
+            overflow-x: auto;
+            margin: 1.5em 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        /* Lists */
+        ul,
+        ol {
+            margin-left: 1.8em;
+            margin-bottom: 1.2em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+            color: var(--text-primary);
+        }
+
+        ul ul,
+        ol ol,
+        ul ol,
+        ol ul {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+
+        /* Blockquotes */
+        blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding-left: 1.2em;
+            margin: 1.5em 0;
+            color: var(--text-secondary);
+            font-style: italic;
+            background: var(--bg-secondary);
+            padding: 1em 1em 1em 1.5em;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.8em 1em;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            color: var(--accent-secondary);
+            font-family: "Fira Code", monospace;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(122, 122, 217, 0.05);
+        }
+
+        /* Horizontal rule */
+        hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 2.5em 0;
+        }
+
+        /* Emphasis box (for notes, side explanations) */
+        .emphasis-box {
+            background: rgba(122, 122, 217, 0.1);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1.2em;
+            margin: 1.5em 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* Header info section (meta) */
+        .header-info {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1.2em;
+            margin: 2em 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .header-info p {
+            margin-bottom: 0.5em;
+        }
+
+        .header-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Responsive / print */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                max-width: 100%;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                color: black;
+                page-break-after: avoid;
+            }
+
+            pre,
+            blockquote,
+            table {
+                page-break-inside: avoid;
+            }
+
+            a {
+                color: black;
+                text-decoration: underline;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            pre {
+                padding: 1em;
+                font-size: 0.8em;
+            }
+        }
+
+        /* Syntax colouring (sourceCode classes) */
+        .sourceCode .kw {
+            color: #e78c8c;
+            font-weight: bold;
+        }
+
+        .sourceCode .dt {
+            color: #8bcdcd;
+        }
+
+        .sourceCode .dv {
+            color: #d4a76a;
+        }
+
+        .sourceCode .bn {
+            color: #d4a76a;
+        }
+
+        .sourceCode .fl {
+            color: #d4a76a;
+        }
+
+        .sourceCode .ch {
+            color: #b8bb87;
+        }
+
+        .sourceCode .st {
+            color: #b8bb87;
+        }
+
+        .sourceCode .co {
+            color: #7c7f93;
+            font-style: italic;
+        }
+
+        .sourceCode .ot {
+            color: #a3a7c7;
+        }
+
+        .sourceCode .fu {
+            color: #8b8bdb;
+        }
+
+        .sourceCode .er {
+            color: #e78c8c;
+            font-weight: bold;
+        }
+
+        .sourceCode .wa {
+            color: #e78c8c;
+            font-style: italic;
+        }
+
+        .sourceCode .cn {
+            color: #d4a76a;
+        }
+
+        .sourceCode .sc {
+            color: #b8bb87;
+        }
+
+        .sourceCode .vs {
+            color: #b8bb87;
+        }
+
+        .sourceCode .ss {
+            color: #b8bb87;
+        }
+
+        .sourceCode .va {
+            color: #a3a7c7;
+        }
+
+        .sourceCode .cf {
+            color: #e78c8c;
+            font-weight: bold;
+        }
+
+        .sourceCode .op {
+            color: #a3a7c7;
+        }
+
+        .sourceCode .pp {
+            color: #8bcdcd;
+        }
+
+        .sourceCode .at {
+            color: #8b8bdb;
+        }
+
+        .sourceCode .do {
+            color: #7c7f93;
+            font-style: italic;
+        }
+
+        .sourceCode .an {
+            color: #7c7f93;
+            font-style: italic;
+        }
+
+        .sourceCode .cv {
+            color: #7c7f93;
+            font-style: italic;
+        }
+
+        .sourceCode .in {
+            color: #7c7f93;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="title-block-header">
+        <h1 class="title">SMC Lab Tutorial Title</h1>
+    </header>
+
+    <div class="header-info">
+        <p><strong>Author:</strong> Lydia Krifka-Dobes</p>
+        <p>
+            <strong>Context:</strong> SMC · UPF Barcelona · Institute of Sonology
+        </p>
+        <p>
+            <strong>Note:</strong> Replace this block with short meta info for each
+            post (course, week, assignment, project).
+        </p>
+    </div>
+
+    <p>
+        This file is a <em>blank template</em> using the same styling and
+        structure as the MayaFlux tutorial layout. Replace the sections below with
+        your own content (DSP notes, MIR experiments, ambisonics sketches,
+        segmentation logs, etc.).
+    </p>
+
+    <nav id="TOC">
+        <ul>
+            <li><a href="#intro">1. Introduction</a></li>
+            <li><a href="#goal">2. Goal</a></li>
+            <li><a href="#method">3. Method</a></li>
+            <li><a href="#results">4. Results & Observations</a></li>
+            <li><a href="#code">5. Code Example</a></li>
+            <li><a href="#next">6. Next Steps</a></li>
+        </ul>
+    </nav>
+
+    <h2 id="intro">1. Introduction</h2>
+    <p>
+        Write your opening here: describe the idea of the experiment / assignment
+        / tutorial in a few sentences. You can be as dry or as poetic as you like.
+    </p>
+
+    <div class="emphasis-box">
+        <strong>Tip:</strong> You can use this box for small side-notes:
+        conceptual remarks, listening instructions, or things to remember next
+        time.
+    </div>
+
+    <h2 id="goal">2. Goal</h2>
+    <p>
+        One clear paragraph stating what you’re trying to explore or test. For
+        example: “Implement baseline onset detection using spectral flux and
+        compare to librosa’s built-in implementation.”
+    </p>
+
+    <ul>
+        <li>Context (course, week, dataset, tools)</li>
+        <li>What you expect to see or hear</li>
+        <li>Any constraints or simplifications you chose</li>
+    </ul>
+
+    <h2 id="method">3. Method</h2>
+    <p>
+        Describe the pipeline, algorithms, or steps. Feel free to split into
+        subsections:
+    </p>
+
+    <h3 id="data">3.1 Data / Material</h3>
+    <p>[Where the audio / corpus / test material comes from.]</p>
+
+    <h3 id="processing">3.2 Processing Steps</h3>
+    <p>[Your DSP / MIR / ML / spatialization procedure.]</p>
+
+    <h3 id="evaluation">3.3 Evaluation</h3>
+    <p>[How you listen, measure, or compare.]</p>
+
+    <h2 id="results">4. Results & Observations</h2>
+    <p>
+        Summarize what happened: what worked, what broke, and what surprised you.
+        You can use bullet points, short bullet “logs”, or prose.
+    </p>
+
+    <ul>
+        <li>Perceptual observations (what you hear)</li>
+        <li>Quantitative results (plots, tables, metrics)</li>
+        <li>Glitches, corner cases, numerical weirdness</li>
+    </ul>
+
+    <blockquote>
+        You can drop little reflections or quotes here – e.g. about modelling,
+        perception, or compositional implications.
+    </blockquote>
+
+    <h2 id="code">5. Code Example</h2>
+    <p>
+        Paste your main code snippet. You can generate this via pandoc from
+        markdown, but if you’re hand-editing, here’s the structure:
+    </p>
+
+    <div class="sourceCode" id="example-code">
+        <pre class="sourceCode python"><code class="sourceCode python"><span class="co"># example.py – replace with your
+                    real code</span>
+                <span class="im">import</span> librosa, numpy <span class="im">as</span> np
+
+                <span class="kw">def</span> example_pipeline(path):
+                y, sr = librosa.load(path, sr<span class="op">=</span><span class="va">None</span>)
+                <span class="co"># TODO: feature extraction / transformations</span>
+                <span class="cf">return</span> y, sr
+
+                y, sr = example_pipeline(<span class="st">"audio/example.wav"</span>)
+                <span class="bu">print</span>(<span class="st">"Duration (s):"</span>, <span class="bu">len</span>(y)
+                <span class="op">/</span> sr)</code></pre>
+    </div>
+
+    <p>
+        Replace the placeholder code with your actual implementation: DSP, MIR,
+        ML, segmentation, cluster mapping, etc.
+    </p>
+
+    <h2 id="next">6. Next Steps</h2>
+    <p>Short checklist of what you want to try after this experiment:</p>
+
+    <ul class="task-list">
+        <li><input type="checkbox" /> Try alternate parameters / models</li>
+        <li><input type="checkbox" /> Listen on different playback systems</li>
+        <li><input type="checkbox" /> Compare with another baseline</li>
+        <li>
+            <input type="checkbox" /> Turn this into a small figure / blog post
+        </li>
+    </ul>
+
+    <hr />
+
+    <p>
+        <strong>Note:</strong> You can safely delete all placeholder paragraphs
+        and sections above and keep only the ones you need. The important parts
+        for the “feel” are:
+    </p>
+
+    <ul>
+        <li>The dark theme styles in <code>&lt;style&gt;</code></li>
+        <li>The <code>nav#TOC</code> block</li>
+        <li>The heading hierarchy and <code>sourceCode</code> classes</li>
+    </ul>
+</body>
+
+</html>
