@@ -286,24 +286,34 @@
                 <div class="status-box">
                     <div class="status-item">
                         <span class="status-check">✓ Active:</span>
-                        SMC coursework pages (<a href="dsp.html">DSP</a>,
-                        <a href="ml.html">ML for Audio</a>) and ongoing experiment logs.
+                        Coursework + technical logs:
+                        <a href="dsp.html">DSP</a>,
+                        <a href="ml.html">ML for Audio</a>,
+                        <a href="technical.html">Systems Notes</a>,
+                        <a href="tutorial.html">MayaFlux Tutorial</a>.
                     </div>
                     <div class="status-item">
                         <span class="status-check">✓ Integrated:</span>
-                        Code snippets and plots rendered directly from notebooks and
-                        scripts into static HTML.
+                        New “computational notebook” format – HTML generated via Bash +
+                        Pandoc with shared dark theme, long-form expansions, and
+                        copy-pasteable code.
                     </div>
                     <div class="status-item">
                         <span class="status-check">→ In Progress:</span>
-                        “Sonics of Language” documentation: clustering multilingual
-                        speech, ambisonic sketches, and perception experiments.
+                        Unified <em>Sonics of Language</em> documentation: segmentation
+                        pipelines, t-SNE maps, IPA clustering, and early ambisonic sketches.
+                    </div>
+                    <div class="status-item">
+                        <span class="status-check">→ Upcoming:</span>
+                        Realtime experiments (Corpus agents, Audiostellar mappings, OSC-based
+                        spatial sketches) and multi-language fable pages.
                     </div>
                 </div>
 
                 <p class="tech-detail" style="margin-top: 1em">
-                    If a page looks rough or half-finished, that’s intentional: I’d
-                    rather expose the work-in-progress than pretend it was linear.
+                    Pages are intentionally rough and iterative – this site is a live
+                    workspace rather than a polished portfolio. Expect experiments,
+                    dead ends, and things that evolve week to week.
                 </p>
             </div>
 
@@ -313,17 +323,17 @@
                     Minimal feature extraction pipeline (librosa + scikit-learn):
                 </p>
                 <pre><code>import librosa
-                        import numpy as np
-                        from sklearn.preprocessing import StandardScaler
+import numpy as np
+from sklearn.preprocessing import StandardScaler
 
-                        y, sr = librosa.load("audio/example.wav", sr=None)
-                        mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=64)
-                        log_mel = librosa.power_to_db(mel, ref=np.max)
+y, sr = librosa.load("audio/example.wav", sr=None)
+mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=64)
+log_mel = librosa.power_to_db(mel, ref=np.max)
 
-                        scaler = StandardScaler()
-                        X = scaler.fit_transform(log_mel.T) # frames × features
+scaler = StandardScaler()
+X = scaler.fit_transform(log_mel.T)  # frames × features
 
-                        print(X.shape)</code></pre>
+print(X.shape)</code></pre>
                 <p class="tech-detail">
                     Most pages will follow this pattern: short context, then concrete,
                     copy-pasteable code that actually ran on my machine.
