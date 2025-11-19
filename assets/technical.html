@@ -271,15 +271,15 @@
     <p>
         This notebook collects <em>work-in-progress</em> material from the Sound
         and Music Computing master at UPF Barcelona and ongoing projects at the
-        Institute of Sonology. The focus is on reproducible code examples, short
-        explanations, and links to audio or figures, rather than polished papers.
+        Institute of Sonology. The emphasis is on reproducible code, minimal setup
+        friction, and notes that I can re-run on Arch-based machines without
+        remembering which package manager mood I was in that week.
     </p>
 
     <div class="emphasis-box">
-        <strong>How to use this template:</strong><br />
-        Replace the sections below with course-specific content (e.g. “DSP Week 3
-        – STFT”, “MIR – Onset Detection”), keeping the structure and code style
-        consistent across entries.
+        <strong>Latest pro tip (for future me):</strong><br />
+        Stop overthinking Python environments. Use <code>uv</code> by default. Use
+        <code>pixi</code> when you really need Conda-style system libraries. That’s it.
     </div>
 
     <h2 id="table-of-contents">Table of Contents</h2>
@@ -287,82 +287,129 @@
         <ul>
             <li><a href="#dev-environment">0. Dev Environment: uv &amp; pixi</a></li>
             <li><a href="#course-context">1. Course Context</a></li>
-            <li><a href="#notebook-structure">2. Notebook Structure</a></li>
-            <li><a href="#example-code-snippet">3. Example Code Snippet</a></li>
+            <li><a href="#example-code-snippet">2. Minimal uv Workflow</a></li>
         </ul>
     </nav>
 
     <h2 id="dev-environment">0. Dev Environment: uv &amp; pixi</h2>
     <p>
-        Most of the code on this blog is developed with a minimal tooling stack
-        based on <code>uv</code> (from Astral) and, when needed, <code>pixi</code>.
-        The idea is to avoid juggling multiple Python version / environment managers.
+        Hardware context: daily drivers are a System76 Oryx Pro, an Alienware
+        Area-51 with a 5080 GPU, plus a PinePhone Pro and a Google Pixel running
+        GrapheneOS. I’ve lived through <code>pipenv</code>, <code>pyenv</code>,
+        <code>poetry</code>, <code>conda</code>/<code>mamba</code>, and a small zoo
+        of virtualenv hacks. This is the setup that currently wastes the least time.
     </p>
 
-    <h3>Development with Python</h3>
+    <h3>Latest pro tip: use uv or pixi</h3>
+    <p>
+        I’ve tried most of the usual Python environment managers. My current
+        conclusion is simple:
+        <strong>use <code>uv</code> for almost everything, keep <code>pixi</code> in
+        reserve for weird ML stacks that really need Conda-style system libraries.</strong>
+    </p>
+
+    <p>
+        Most people run into three kinds of Python packaging problems:
+    </p>
+    <ol>
+        <li>Managing project environments and Python versions.</li>
+        <li>Installing isolated CLI tools.</li>
+        <li>AI/ML setups that depend on CUDA / BLAS / other system libraries.</li>
+    </ol>
+
+    <p>
+        <code>uv</code> solves almost all of this for day-to-day work. When it
+        doesn’t, the fallback is <code>pixi</code>, not going back to a global
+        Conda base environment.
+    </p>
+
+    <h3>1. Development with Python</h3>
+    <p>
+        For normal projects (DSP notebooks, MIR scripts, small web tools) I just
+        use <code>uv</code>:
+    </p>
     <ul>
         <li>
-            Use <code>uv</code> as the default for new and existing projects:
-            <ul>
-                <li><code>uv init</code> &mdash; create a new project with a <code>pyproject.toml</code>.</li>
-                <li><code>uv pip ...</code> &mdash; drop-in replacement for <code>pip</code> on legacy projects.</li>
-                <li><code>uv python install &lt;version&gt;</code> &mdash; manage Python versions.</li>
-            </ul>
+            <code>uv init</code> &mdash; create a new project with a
+            <code>pyproject.toml</code>.
         </li>
         <li>
-            This replaces the usual stack of <code>pipenv</code>, <code>pyenv</code>,
-            <code>poetry</code>, and ad-hoc virtualenvs.
-        </li>
-    </ul>
-
-    <pre><code class="sourceCode bash"># new project
-uv init smc-dsp-experiments
-cd smc-dsp-experiments
-uv add numpy scipy librosa</code></pre>
-
-    <h3>CLI tools written in Python</h3>
-    <ul>
-        <li>
-            For standalone CLI tools, use <code>uv tool</code> instead of <code>pipx</code>:
-            <ul>
-                <li><code>uv tool install &lt;package&gt;</code> &mdash; installs into an isolated env.</li>
-                <li>You can still pin / switch the Python version that tool uses.</li>
-            </ul>
-        </li>
-    </ul>
-
-    <pre><code class="sourceCode bash"># example: install a one-off CLI helper
-uv tool install ruff
-ruff check .</code></pre>
-
-    <h3>AI / ML projects</h3>
-    <ul>
-        <li>
-            First try a plain <code>uv</code> environment; for many recent ML stacks
-            (DSP notebooks, MIR baselines, smaller models) this is enough.
+            <code>uv pip</code> &mdash; drop-in replacement for <code>pip</code> in
+            legacy projects.
         </li>
         <li>
-            The main reason to reach for Conda-style environments is when you need
-            specific BLAS / CUDA / system libraries or older combinations of
-            packages.
-        </li>
-        <li>
-            If that happens, use <code>pixi</code> instead of a global Conda setup:
-            you get per-project envs with the same “declare it, don’t manage it by
-            hand” workflow.
+            <code>uv python</code> &mdash; manage installed Python versions, per user,
+            without extra pyenv layers.
         </li>
     </ul>
 
     <p>
-        For the SMC coursework shown here, the default assumption is:
-        <strong>“just use <code>uv</code>, and only fall back to <code>pixi</code> if
-        a particular ML stack really demands Conda-style pinning.”</strong>
+        This replaces the old stack of <code>pipenv</code>, <code>pyenv</code>,
+        <code>poetry</code>, random virtualenvs, and half-remembered shell
+        functions. One tool, one mental model.
     </p>
+
+    <h3>2. Installing CLI tools written in Python</h3>
+    <p>
+        For Python-based CLI tools, I no longer use <code>pipx</code>. I let
+        <code>uv</code> handle that too:
+    </p>
+    <ul>
+        <li>
+            <code>uv tool install &lt;package&gt;</code> &mdash; install into an isolated environment.
+        </li>
+        <li>
+            Each tool gets its own virtual environment and pinned Python version
+            if needed.
+        </li>
+    </ul>
+
+    <p>
+        Result: less global Python mess, no “which pip installed this thing”
+        archaeology.
+    </p>
+
+    <h3>3. AI / ML with Python</h3>
+    <p>
+        For AI / ML work I start with <code>uv</code> and only escalate if needed.
+        Most newer projects target recent Python versions and up-to-date system
+        libraries. In those cases, a normal <code>uv</code> environment is enough.
+    </p>
+
+    <p>
+        The classic argument for Conda/mamba is:
+    </p>
+    <ul>
+        <li>
+            You can pin different versions of BLAS, CUDA, etc. inside the env,
+            independently of the system.
+        </li>
+    </ul>
+
+    <p>
+        That’s still valid for older or finicky ML projects, or anything that needs
+        specific ROCm / CUDA combos or obscure binary dependencies. For those:
+        <strong>use <code>pixi</code></strong>.
+    </p>
+
+    <p>
+        <code>pixi</code> behaves like a saner Conda: project-local envs, no global
+        Conda base trying to manage your universe, and declarative lockfiles
+        instead of manual spell-casting.
+    </p>
+
+    <div class="emphasis-box">
+        <strong>Rule of thumb for future Lydia:</strong><br />
+        Start with <code>uv</code>. If the project installs cleanly and runs tests,
+        stop there. If you’re fighting CUDA / ROCm / Triton / ancient
+        dependencies for more than a few minutes, switch that project to
+        <code>pixi</code> and keep the rest of the system simple.
+    </div>
 
     <h2 id="course-context">1. Course Context</h2>
     <p>
-        These notes cover selected classes and projects from the SMC curriculum
-        and adjacent research:
+        This notebook lives in parallel with the Sound and Music Computing master
+        at UPF and work at the Institute of Sonology. Roughly, it touches:
     </p>
     <ul>
         <li>
@@ -370,85 +417,77 @@ ruff check .</code></pre>
         </li>
         <li>
             <strong>MIR / ML for Audio:</strong> feature extraction, embeddings,
-            simple classifiers and baselines.
+            baselines and prototypes.
         </li>
         <li>
             <strong>Perception:</strong> listening tests, psychoacoustic measures,
-            and small statistics experiments.
+            small statistics experiments.
         </li>
         <li>
             <strong>Sonics of Language:</strong> clustering multilingual speech,
-            segmentation strategies, and spatial sound sketches.
+            segmentation strategies, spatial and ambisonic sketches.
         </li>
     </ul>
 
     <p>
-        On the blog you will occasionally see tags or sections that mirror the
-        official SMC master structure:
+        The official SMC curriculum that this notebook is loosely aligned with
+        includes:
     </p>
     <ul>
-        <li><strong>Core courses:</strong> Digital Signal Processing for Sound and Music, Machine Learning for Sound and Music, Music Perception and Cognition, Research Methods, Music Information Retrieval, Symbolic Music Analysis and Computational Musicology, Generative Algorithms for Sound and Music.</li>
-        <li><strong>Optional / complementary topics:</strong> Advanced Computing Techniques for Sound and Music, Sound Communication, Advanced Interface Design, Systems Design, Integration and Control, Web Intelligence, Natural Language Interaction, plus general ML / Cognitive Science modules.</li>
-        <li><strong>Thesis / project work:</strong> research-driven installations, endangered language corpora, and spatial sound pieces that grow out of the exercises documented here.</li>
+        <li>
+            <strong>Core courses:</strong> Digital Signal Processing for Sound and
+            Music, Machine Learning for Sound and Music, Music Perception and
+            Cognition, Research Methods, Music Information Retrieval, Symbolic
+            Music Analysis and Computational Musicology, Generative Algorithms for
+            Sound and Music.
+        </li>
+        <li>
+            <strong>Optional / complementary topics:</strong> Advanced Computing
+            Techniques for Sound and Music, Sound Communication, Advanced Interface
+            Design, Systems Design, Integration and Control, Web Intelligence,
+            Natural Language Interaction, general Machine Learning, and Cognitive
+            Science modules.
+        </li>
+        <li>
+            <strong>Thesis:</strong> research projects that may involve endangered
+            language corpora, spatial audio installations, and interactive systems.
+        </li>
     </ul>
 
-    <div class="emphasis-box">
-        <strong>About me (short version):</strong><br />
-        I work between creative coding, spatial sound, and endangered language
-        corpora. Besides the SMC master at UPF and studies at the Institute of
-        Sonology, I’ve shown work at venues like the Venice Biennale and Humboldt
-        Forum, and I maintain a small ecosystem of open-source tools for audio,
-        ML, and interaction.
-    </div>
-
-    <h2 id="notebook-structure">2. Notebook Structure</h2>
-    <p>Each blog entry or course page generally follows this pattern:</p>
-    <ol>
-        <li>
-            <strong>Goal:</strong> one paragraph saying what I’m trying to test or
-            build.
-        </li>
-        <li><strong>Method:</strong> short description + the main code block.</li>
-        <li>
-            <strong>Observations:</strong> what worked, what broke, what to try
-            next.
-        </li>
-        <li><strong>Links:</strong> audio, plots, or repository references.</li>
-    </ol>
-
-    <blockquote>
-        “If a script can’t be re-run on a different day and still make sense, it
-        doesn’t belong here yet.”
-    </blockquote>
-
-    <h2 id="example-code-snippet">3. Example Code Snippet</h2>
+    <h2 id="example-code-snippet">2. Minimal uv Workflow</h2>
     <p>
-        Minimal baseline for feature extraction and normalization (used in several
-        experiments):
+        The only “snippet” I really need here is a reminder of the minimal flow
+        for spinning up a new experiment. Everything else can be reconstructed
+        from this.
     </p>
 
     <div class="sourceCode" id="code-example">
-        <pre><code class="sourceCode python"><span class="co"># features.py – tiny baseline pipeline</span>
-<span class="kw">import</span> librosa, numpy <span class="kw">as</span> np
-<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+        <pre><code class="sourceCode bash"># 0. Make sure uv is installed (system-wide or via your package manager).
+#    On Arch you probably know what you’re doing.
 
-<span class="kw">def</span> extract_log_mel(path, n_mels=64):
-    y, sr = librosa.load(path, sr=None)
-    mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=n_mels)
-    log_mel = librosa.power_to_db(mel, ref=np.max)
-    scaler = StandardScaler()
-    X = scaler.fit_transform(log_mel.T)  <span class="co"># frames × features</span>
-    <span class="kw">return</span> X, sr
+# 1. New project
+uv init smc-experiment
+cd smc-experiment
 
-X, sr = extract_log_mel(<span class="st">"audio/example.wav"</span>)
-<span class="fu">print</span>(X.shape, <span class="st">"sample rate:"</span>, sr)</code></pre>
+# 2. Add dependencies
+uv add numpy scipy librosa scikit-learn
+
+# 3. Pin Python version if needed
+uv python install 3.11
+uv python pin 3.11
+
+# 4. Run your stuff
+uv run python scripts/whatever.py
+
+# 5. For a CLI tool (ruff, black, etc.)
+uv tool install ruff
+ruff check .</code></pre>
     </div>
 
-    <p>
-        On other pages, this template just repeats with different sections (e.g.
-        “Experiment A”, “Follow-up B”) and more detailed results, but keeps the
-        same typography + code styling.
-    </p>
+    <blockquote>
+        If a script can’t be re-run on a different day, on a different machine,
+        without fighting the environment, it doesn’t belong in this notebook yet.
+    </blockquote>
 
     <hr />
 
