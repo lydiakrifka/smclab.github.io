@@ -92,6 +92,12 @@
             margin-top: 2.2em;
         }
 
+        h3 {
+            font-size: 1.2em;
+            margin-top: 1.4em;
+            border: none;
+        }
+
         p {
             margin-bottom: 1.1em;
             color: var(--text-primary);
@@ -279,11 +285,79 @@
     <h2 id="table-of-contents">Table of Contents</h2>
     <nav id="TOC">
         <ul>
+            <li><a href="#dev-environment">0. Dev Environment: uv &amp; pixi</a></li>
             <li><a href="#course-context">1. Course Context</a></li>
             <li><a href="#notebook-structure">2. Notebook Structure</a></li>
             <li><a href="#example-code-snippet">3. Example Code Snippet</a></li>
         </ul>
     </nav>
+
+    <h2 id="dev-environment">0. Dev Environment: uv &amp; pixi</h2>
+    <p>
+        Most of the code on this blog is developed with a minimal tooling stack
+        based on <code>uv</code> (from Astral) and, when needed, <code>pixi</code>.
+        The idea is to avoid juggling multiple Python version / environment managers.
+    </p>
+
+    <h3>Development with Python</h3>
+    <ul>
+        <li>
+            Use <code>uv</code> as the default for new and existing projects:
+            <ul>
+                <li><code>uv init</code> &mdash; create a new project with a <code>pyproject.toml</code>.</li>
+                <li><code>uv pip ...</code> &mdash; drop-in replacement for <code>pip</code> on legacy projects.</li>
+                <li><code>uv python install &lt;version&gt;</code> &mdash; manage Python versions.</li>
+            </ul>
+        </li>
+        <li>
+            This replaces the usual stack of <code>pipenv</code>, <code>pyenv</code>,
+            <code>poetry</code>, and ad-hoc virtualenvs.
+        </li>
+    </ul>
+
+    <pre><code class="sourceCode bash"># new project
+uv init smc-dsp-experiments
+cd smc-dsp-experiments
+uv add numpy scipy librosa</code></pre>
+
+    <h3>CLI tools written in Python</h3>
+    <ul>
+        <li>
+            For standalone CLI tools, use <code>uv tool</code> instead of <code>pipx</code>:
+            <ul>
+                <li><code>uv tool install &lt;package&gt;</code> &mdash; installs into an isolated env.</li>
+                <li>You can still pin / switch the Python version that tool uses.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <pre><code class="sourceCode bash"># example: install a one-off CLI helper
+uv tool install ruff
+ruff check .</code></pre>
+
+    <h3>AI / ML projects</h3>
+    <ul>
+        <li>
+            First try a plain <code>uv</code> environment; for many recent ML stacks
+            (DSP notebooks, MIR baselines, smaller models) this is enough.
+        </li>
+        <li>
+            The main reason to reach for Conda-style environments is when you need
+            specific BLAS / CUDA / system libraries or older combinations of
+            packages.
+        </li>
+        <li>
+            If that happens, use <code>pixi</code> instead of a global Conda setup:
+            you get per-project envs with the same “declare it, don’t manage it by
+            hand” workflow.
+        </li>
+    </ul>
+
+    <p>
+        For the SMC coursework shown here, the default assumption is:
+        <strong>“just use <code>uv</code>, and only fall back to <code>pixi</code> if
+        a particular ML stack really demands Conda-style pinning.”</strong>
+    </p>
 
     <h2 id="course-context">1. Course Context</h2>
     <p>
@@ -307,6 +381,25 @@
             segmentation strategies, and spatial sound sketches.
         </li>
     </ul>
+
+    <p>
+        On the blog you will occasionally see tags or sections that mirror the
+        official SMC master structure:
+    </p>
+    <ul>
+        <li><strong>Core courses:</strong> Digital Signal Processing for Sound and Music, Machine Learning for Sound and Music, Music Perception and Cognition, Research Methods, Music Information Retrieval, Symbolic Music Analysis and Computational Musicology, Generative Algorithms for Sound and Music.</li>
+        <li><strong>Optional / complementary topics:</strong> Advanced Computing Techniques for Sound and Music, Sound Communication, Advanced Interface Design, Systems Design, Integration and Control, Web Intelligence, Natural Language Interaction, plus general ML / Cognitive Science modules.</li>
+        <li><strong>Thesis / project work:</strong> research-driven installations, endangered language corpora, and spatial sound pieces that grow out of the exercises documented here.</li>
+    </ul>
+
+    <div class="emphasis-box">
+        <strong>About me (short version):</strong><br />
+        I work between creative coding, spatial sound, and endangered language
+        corpora. Besides the SMC master at UPF and studies at the Institute of
+        Sonology, I’ve shown work at venues like the Venice Biennale and Humboldt
+        Forum, and I maintain a small ecosystem of open-source tools for audio,
+        ML, and interaction.
+    </div>
 
     <h2 id="notebook-structure">2. Notebook Structure</h2>
     <p>Each blog entry or course page generally follows this pattern:</p>
@@ -336,19 +429,19 @@
 
     <div class="sourceCode" id="code-example">
         <pre><code class="sourceCode python"><span class="co"># features.py – tiny baseline pipeline</span>
-                <span class="kw">import</span> librosa, numpy <span class="kw">as</span> np
-                <span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">import</span> librosa, numpy <span class="kw">as</span> np
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
 
-                <span class="kw">def</span> extract_log_mel(path, n_mels=64):
-                y, sr = librosa.load(path, sr=None)
-                mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=n_mels)
-                log_mel = librosa.power_to_db(mel, ref=np.max)
-                scaler = StandardScaler()
-                X = scaler.fit_transform(log_mel.T) <span class="co"># frames × features</span>
-                <span class="kw">return</span> X, sr
+<span class="kw">def</span> extract_log_mel(path, n_mels=64):
+    y, sr = librosa.load(path, sr=None)
+    mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=n_mels)
+    log_mel = librosa.power_to_db(mel, ref=np.max)
+    scaler = StandardScaler()
+    X = scaler.fit_transform(log_mel.T)  <span class="co"># frames × features</span>
+    <span class="kw">return</span> X, sr
 
-                X, sr = extract_log_mel(<span class="st">"audio/example.wav"</span>)
-                <span class="fu">print</span>(X.shape, <span class="st">"sample rate:"</span>, sr)</code></pre>
+X, sr = extract_log_mel(<span class="st">"audio/example.wav"</span>)
+<span class="fu">print</span>(X.shape, <span class="st">"sample rate:"</span>, sr)</code></pre>
     </div>
 
     <p>
