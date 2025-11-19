@@ -261,8 +261,9 @@
 
     <p>
         <strong>Note:</strong> This page is generated from markdown via Pandoc and
-        serves as a template for my SMC coursework blog: DSP experiments, MIR
-        assignments, machine-learning sketches, and small research notes.
+        doubles as a scratchpad for SMC coursework: DSP experiments, MIR
+        assignments, ML sketches, and misc research notes that should still run
+        if I reopen them on a different machine in six months.
     </p>
 
     <hr />
@@ -272,14 +273,15 @@
         This notebook collects <em>work-in-progress</em> material from the Sound
         and Music Computing master at UPF Barcelona and ongoing projects at the
         Institute of Sonology. The emphasis is on reproducible code, minimal setup
-        friction, and notes that I can re-run on Arch-based machines without
-        remembering which package manager mood I was in that week.
+        friction, and environment notes that work across my Arch-based systems,
+        instead of a different Python ritual for every project.
     </p>
 
     <div class="emphasis-box">
         <strong>Latest pro tip (for future me):</strong><br />
-        Stop overthinking Python environments. Use <code>uv</code> by default. Use
-        <code>pixi</code> when you really need Conda-style system libraries. That’s it.
+        Stop overcomplicating Python environments. Use <code>uv</code> by default.
+        Use <code>pixi</code> only when you really need Conda-style system
+        libraries. That’s it.
     </div>
 
     <h2 id="table-of-contents">Table of Contents</h2>
@@ -297,36 +299,36 @@
         Area-51 with a 5080 GPU, plus a PinePhone Pro and a Google Pixel running
         GrapheneOS. I’ve lived through <code>pipenv</code>, <code>pyenv</code>,
         <code>poetry</code>, <code>conda</code>/<code>mamba</code>, and a small zoo
-        of virtualenv hacks. This is the setup that currently wastes the least time.
+        of virtualenv hacks. This setup currently wastes the least time.
     </p>
 
     <h3>Latest pro tip: use uv or pixi</h3>
     <p>
         I’ve tried most of the usual Python environment managers. My current
-        conclusion is simple:
+        conclusion is straightforward:
         <strong>use <code>uv</code> for almost everything, keep <code>pixi</code> in
-        reserve for weird ML stacks that really need Conda-style system libraries.</strong>
+        reserve for ML stacks that really need Conda-style system libraries.</strong>
     </p>
 
     <p>
-        Most people run into three kinds of Python packaging problems:
+        The three recurring pain points:
     </p>
     <ol>
         <li>Managing project environments and Python versions.</li>
         <li>Installing isolated CLI tools.</li>
-        <li>AI/ML setups that depend on CUDA / BLAS / other system libraries.</li>
+        <li>AI/ML setups tied to CUDA / ROCm / BLAS / other system libs.</li>
     </ol>
 
     <p>
-        <code>uv</code> solves almost all of this for day-to-day work. When it
-        doesn’t, the fallback is <code>pixi</code>, not going back to a global
-        Conda base environment.
+        <code>uv</code> covers (1) and (2) cleanly and handles (3) surprisingly
+        well for modern projects. When it doesn’t, that’s the moment to reach for
+        <code>pixi</code>, not resurrect a global Conda base.
     </p>
 
     <h3>1. Development with Python</h3>
     <p>
-        For normal projects (DSP notebooks, MIR scripts, small web tools) I just
-        use <code>uv</code>:
+        For normal projects (DSP notebooks, MIR scripts, small tools) I just use
+        <code>uv</code>:
     </p>
     <ul>
         <li>
@@ -338,78 +340,81 @@
             legacy projects.
         </li>
         <li>
-            <code>uv python</code> &mdash; manage installed Python versions, per user,
-            without extra pyenv layers.
+            <code>uv python</code> &mdash; install and select Python versions per
+            user, without stacking another manager on top.
         </li>
     </ul>
 
     <p>
-        This replaces the old stack of <code>pipenv</code>, <code>pyenv</code>,
+        This replaces the old chain of <code>pipenv</code>, <code>pyenv</code>,
         <code>poetry</code>, random virtualenvs, and half-remembered shell
         functions. One tool, one mental model.
     </p>
 
     <h3>2. Installing CLI tools written in Python</h3>
     <p>
-        For Python-based CLI tools, I no longer use <code>pipx</code>. I let
-        <code>uv</code> handle that too:
+        For Python-based CLI tools I no longer bother with <code>pipx</code>. I let
+        <code>uv</code> do it:
     </p>
     <ul>
         <li>
-            <code>uv tool install &lt;package&gt;</code> &mdash; install into an isolated environment.
+            <code>uv tool install &lt;package&gt;</code> &mdash; install into an isolated env.
         </li>
         <li>
-            Each tool gets its own virtual environment and pinned Python version
-            if needed.
+            Each tool gets its own virtual environment and can have a pinned Python
+            version if needed.
         </li>
     </ul>
 
     <p>
-        Result: less global Python mess, no “which pip installed this thing”
-        archaeology.
+        Result: less global Python clutter, fewer “which pip installed this?”
+        archaeology sessions.
     </p>
 
     <h3>3. AI / ML with Python</h3>
     <p>
-        For AI / ML work I start with <code>uv</code> and only escalate if needed.
-        Most newer projects target recent Python versions and up-to-date system
-        libraries. In those cases, a normal <code>uv</code> environment is enough.
+        For AI / ML work I start with <code>uv</code> and only escalate if the
+        project actually breaks. Most newer codebases target recent Python + recent
+        system libraries. In that world, a plain <code>uv</code> environment is
+        enough.
     </p>
 
     <p>
-        The classic argument for Conda/mamba is:
+        Classic Conda/mamba argument:
     </p>
     <ul>
         <li>
-            You can pin different versions of BLAS, CUDA, etc. inside the env,
-            independently of the system.
+            You can pin different BLAS, CUDA, etc. versions inside the env,
+            independent of the host system.
         </li>
     </ul>
 
     <p>
-        That’s still valid for older or finicky ML projects, or anything that needs
-        specific ROCm / CUDA combos or obscure binary dependencies. For those:
-        <strong>use <code>pixi</code></strong>.
+        That’s still useful for older projects or anything that depends on a
+        specific ROCm/CUDA/Triton combo. The average ML repository with a huge
+        <code>requirements.txt</code> is often technically unsatisfiable as-is. In
+        those cases I either patch the deps or move that project into
+        <strong><code>pixi</code></strong> and freeze the environment there.
     </p>
 
     <p>
         <code>pixi</code> behaves like a saner Conda: project-local envs, no global
-        Conda base trying to manage your universe, and declarative lockfiles
-        instead of manual spell-casting.
+        base trying to own the machine, and declarative lockfiles instead of
+        incantations.
     </p>
 
     <div class="emphasis-box">
         <strong>Rule of thumb for future Lydia:</strong><br />
-        Start with <code>uv</code>. If the project installs cleanly and runs tests,
-        stop there. If you’re fighting CUDA / ROCm / Triton / ancient
-        dependencies for more than a few minutes, switch that project to
-        <code>pixi</code> and keep the rest of the system simple.
+        Start with <code>uv</code>. If it installs cleanly and tests pass, stop
+        thinking about it. If you’re wrestling CUDA / ROCm / Triton / ancient
+        dependencies for more than a short while, switch that project to
+        <code>pixi</code> and keep everything else boring.
     </div>
 
     <h2 id="course-context">1. Course Context</h2>
     <p>
-        This notebook lives in parallel with the Sound and Music Computing master
-        at UPF and work at the Institute of Sonology. Roughly, it touches:
+        This notebook lives next to the Sound and Music Computing master at UPF
+        and my work at the Institute of Sonology. It touches:
     </p>
     <ul>
         <li>
@@ -417,21 +422,20 @@
         </li>
         <li>
             <strong>MIR / ML for Audio:</strong> feature extraction, embeddings,
-            baselines and prototypes.
+            baselines and quick prototypes.
         </li>
         <li>
             <strong>Perception:</strong> listening tests, psychoacoustic measures,
             small statistics experiments.
         </li>
         <li>
-            <strong>Sonics of Language:</strong> clustering multilingual speech,
+            <strong>Sonics of Language:</strong> multilingual speech corpora,
             segmentation strategies, spatial and ambisonic sketches.
         </li>
     </ul>
 
     <p>
-        The official SMC curriculum that this notebook is loosely aligned with
-        includes:
+        The official SMC curriculum this loosely tracks includes:
     </p>
     <ul>
         <li>
@@ -449,16 +453,15 @@
             Science modules.
         </li>
         <li>
-            <strong>Thesis:</strong> research projects that may involve endangered
+            <strong>Thesis:</strong> research projects involving endangered
             language corpora, spatial audio installations, and interactive systems.
         </li>
     </ul>
 
     <h2 id="example-code-snippet">2. Minimal uv Workflow</h2>
     <p>
-        The only “snippet” I really need here is a reminder of the minimal flow
-        for spinning up a new experiment. Everything else can be reconstructed
-        from this.
+        This is the minimal flow I want to remember. Everything else can be
+        reconstructed from here.
     </p>
 
     <div class="sourceCode" id="code-example">
