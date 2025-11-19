@@ -1,7 +1,5 @@
 ## Tech Stack
 
-- **Languages:** Python, Bash
-- **Audio Libraries:** librosa, essentia, sms-tools
 - **ML Frameworks:** PyTorch, scikit-learn
 - **Environment:** uv package manager, Neovim, Arch Linux
 
