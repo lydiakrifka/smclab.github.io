@@ -214,7 +214,8 @@
         coursework (DSP, ML for audio, MIR, perception, research methods) and
         adjacent projects from the Institute of Sonology. Code is in Python/Bash
         on Arch Linux; audio work uses <em>librosa</em>, <em>essentia</em>,
-        <em>sms-tools</em> and friends.
+        <em>sms-tools</em> and friends. Tooling is intentionally boring:
+        <code>uv</code> for Python environments, <code>git</code>, and the terminal.
     </div>
 
     <div class="twopane">
@@ -289,8 +290,7 @@
                         Coursework + technical logs:
                         <a href="dsp.html">DSP</a>,
                         <a href="ml.html">ML for Audio</a>,
-                        <a href="technical.html">Systems Notes</a>,
-                        <a href="tutorial.html">MayaFlux Tutorial</a>.
+                        <a href="technical.html">Systems Notes</a>.
                     </div>
                     <div class="status-item">
                         <span class="status-check">✓ Integrated:</span>
@@ -318,25 +318,54 @@
             </div>
 
             <div class="section-box">
-                <h3>Example Code Snippet</h3>
+                <h3>Latest Pro Tip: use uv or pixi</h3>
                 <p class="code-sample-title">
-                    Minimal feature extraction pipeline (librosa + scikit-learn):
+                    Python environments, but not a lifestyle:
                 </p>
-                <pre><code>import librosa
-import numpy as np
-from sklearn.preprocessing import StandardScaler
+                <p>
+                    I’ve used <code>pipenv</code>, <code>pyenv</code>,
+                    <code>poetry</code> and <code>conda</code>/<code>mamba</code>.
+                    Current conclusion is simple:
+                    <strong>use <code>uv</code> for almost everything, keep
+                    <code>pixi</code> in reserve for ML stacks that really need
+                    Conda-style system libraries.</strong>
+                </p>
+                <p>
+                    Most of the pain sits in three places:
+                </p>
+                <ul>
+                    <li>project environments and Python versions,</li>
+                    <li>isolated CLI tools,</li>
+                    <li>AI/ML setups glued to CUDA / ROCm / BLAS / random binaries.</li>
+                </ul>
+                <p>
+                    <code>uv</code> covers (1) and (2) and is fine for most modern ML
+                    projects. When a project insists on some cursed ROCm/CUDA/Triton
+                    combo, that’s when I move it into <code>pixi</code> and freeze
+                    the environment there instead of polluting the system.
+                </p>
+                <pre><code class="language-bash"># new project
+uv init smc-experiment
+cd smc-experiment
 
-y, sr = librosa.load("audio/example.wav", sr=None)
-mel = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=64)
-log_mel = librosa.power_to_db(mel, ref=np.max)
+# add deps
+uv add numpy scipy librosa scikit-learn
 
-scaler = StandardScaler()
-X = scaler.fit_transform(log_mel.T)  # frames × features
+# (optional) pin Python
+uv python install 3.11
+uv python pin 3.11
 
-print(X.shape)</code></pre>
+# run code
+uv run python scripts/whatever.py
+
+# install a CLI tool
+uv tool install ruff
+ruff check .</code></pre>
                 <p class="tech-detail">
-                    Most pages will follow this pattern: short context, then concrete,
-                    copy-pasteable code that actually ran on my machine.
+                    Rule of thumb for future me: start with <code>uv</code>. If the
+                    install works and tests pass, stop thinking about it. If I’m still
+                    fighting drivers and old binaries after a short while, that project
+                    gets a <code>pixi</code> env and everyone else stays boring.
                 </p>
             </div>
 
@@ -430,7 +459,7 @@ print(X.shape)</code></pre>
     }
 </style>
 
-<a href="dsp.html" class="tech-doc-btn">📄 Coursework Index (DSP)</a>
-<a href="https://github.com/lydiakrifka/smclab.github.io" class="signup-btn">🧩 Blog Source (GitHub)</a>
+<a href="dsp.html" class="tech-doc-btn">Coursework Index (DSP)</a>
+<a href="https://github.com/lydiakrifka/smclab.github.io" class="signup-btn">Blog Source (GitHub)</a>
 
 </html>
